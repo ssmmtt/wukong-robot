@@ -60,20 +60,17 @@ docs/_build/
 # PyBuilder
 target/
 
-# Coverage reports for a specific version
-.coverage
 
 # SublimeLinter config file
 .sublimelinterrc
 
 # temp folder
-temp/*
+temp/DIR
 
 # temp file
 #*.*#
 #*#
 \#*#
-*~
 .#*.*
 
 # NetEase music account info
