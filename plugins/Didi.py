@@ -10,8 +10,8 @@ class Plugin(AbstractPlugin):
     def handle(self, text, parsed):
         self.say('好的，我来帮你打车，您要去哪里？')
 
-        response = requests.get("http://localhost:9090/control?name=didi&action=start&text=")
-        if response != 'true':
+        response = requests.get("http://192.168.30.122:9090/control?name=didi&action=start&text=")
+        if response.text != 'true':
             self.say(f"打车功能出现了一些问题呢。")
             return
 
@@ -27,10 +27,13 @@ class Plugin(AbstractPlugin):
             if "确认" in check:
                 self.say("好的。正在帮您打车，请耐心等待！")
                 # 具体打车操作。。。
-                response = requests.get(f"http://localhost:9090/control?name=didi&action=search&text={word}")
+                response = requests.get(f"http://192.168.30.122:9090/control?name=didi&action=search&text={word}")
                 num = response.text
-                if num != '':
+                if response.status_code == 200 and num != '':
                     self.say(f"已经帮您打到车了，车牌号是{num}")
+                    return
+                else:
+                    self.say(f"打车功能出现了一些问题呢。")
                     return
             else:
                 self.say(f"已取消打车。")
