@@ -1,7 +1,7 @@
-import time
-
+from robot import config, logging, constants
 from snowboy import snowboydecoder
-from robot import config, logging, utils, constants
+from tools.obs_control import *
+import time
 
 logger = logging.getLogger(__name__)
 
@@ -55,11 +55,14 @@ def initDetector(wukong):
                             ),
                         )
                     )
+
+                    obs_box_open()  # 显示弹窗
                     wukong._detected_callback(False)
                     recorder.stop()
                     wukong.conversation.interrupt()
                     query = wukong.conversation.activeListen()
                     wukong.conversation.doResponse(query)
+                    obs_box_close()  # 关闭弹窗
                     recorder.start()
         except pvporcupine.PorcupineActivationError as e:
             logger.error("[Porcupine] AccessKey activation error", stack_info=True)
